@@ -17,8 +17,6 @@ public class Film {
     @Size(max = 200, message = "Описание фильма не может превышать 200 символов")
     private String description;
     @Past(message = "Дата релиза должна быть в прошлом")
-//    @Min(value = LocalDate.of(1985, 12, 28),
-//            message = "Дата релиза не может быть раньше 28 декабря 1895 года")
     private LocalDate releaseDate;
     @Positive(message = "Продолжительность фильма должна быть положительным числом")
     private int duration;

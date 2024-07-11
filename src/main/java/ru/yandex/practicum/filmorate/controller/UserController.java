@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers() {
+    public List<User> getUsers(User userNameIsBlank) {
         log.info("Получен запрос на список пользователей");
         return getListUsers();
     }
@@ -39,7 +39,7 @@ public class UserController {
     @PostMapping
     public User postUsers(@Valid @RequestBody User user) {
         try {
-            validation(user);
+            validationUser(user);
             user.setId(createId());
             if (user.getName() == null || user.getName().isBlank()) {
                 user.setName(user.getLogin());
@@ -56,7 +56,7 @@ public class UserController {
     @PutMapping
     public User updateUsers(@Valid @RequestBody User user) {
         try {
-            validation(user);
+            validationUser(user);
             if (users.containsKey(user.getId())) {
                 if (user.getName() == null || user.getName().isBlank()) {
                     user.setName(user.getLogin());
@@ -73,7 +73,7 @@ public class UserController {
         return user;
     }
 
-    private void validation(User user) throws ValidationException {
+    private void validationUser(User user) throws ValidationException {
         if (user.getEmail().isBlank() || !user.getEmail().contains("@")) {
             throw new ValidationException("Электронная почта не может быть пустой и должна содержать символ '@'");
         }

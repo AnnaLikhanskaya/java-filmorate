@@ -22,7 +22,7 @@ public class FilmController {
     }
 
     @GetMapping
-    public List<Film> getFilms() {
+    public List<Film> getFilms(LocalDate localDate) {
         log.info("Получен запрос на список фильмов");
         return getListFilms();
     }
@@ -36,7 +36,7 @@ public class FilmController {
     @PostMapping
     public Film postFilm(@RequestBody Film film) {
         try {
-            validation(film);
+            validationFilm(film);
             film.setId(createId());
             films.put(film.getId(), film);
             log.info("Ваш фильм добавлен");
@@ -50,7 +50,7 @@ public class FilmController {
     @PutMapping
     public Film updateFilm(@RequestBody Film film) {
         try {
-            validation(film);
+            validationFilm(film);
             if (films.containsKey(film.getId())) {
                 films.replace(film.getId(), film);
                 log.info("Ваш фильм обновлен");
@@ -64,7 +64,7 @@ public class FilmController {
         return film;
     }
 
-    private void validation(Film film) throws ValidationException {
+    private void validationFilm(Film film) throws ValidationException {
         if (film.getName().isEmpty() || film.getName().isBlank()) {
             throw new ValidationException("Название не может быть пустым");
         }
